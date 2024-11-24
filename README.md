@@ -2,7 +2,7 @@
 
 - Carlos Hernandez & Jonathan Nunez
 
-# How to run web client
+# How to run Web Client
 - In terminal, navigate to `Web Client` folder and run the following
 - `npm install`
 - `npm run dev`
