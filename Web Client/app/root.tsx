@@ -4,25 +4,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
 
 import "./tailwind.css";
 
-export const links: LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-];
-
-export function Layout({ children }: { children: React.ReactNode }) {
+export default function Component() {
   return (
     <html lang="en">
       <head>
@@ -32,14 +19,39 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
         <ScrollRestoration />
         <Scripts />
+        root page
+        <div>
+          <Outlet />
+        </div>
       </body>
     </html>
   );
 }
 
-export default function App() {
-  return <Outlet />;
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  return (
+    <html>
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <Scripts />
+        <div className="w-full flex flex-row justify-center items-center">
+          <div className="font-bold text-2xl text-red-500">
+            <div>
+              Error 404
+            </div>
+            <div>
+              Page Not Found
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>
+  );
 }
