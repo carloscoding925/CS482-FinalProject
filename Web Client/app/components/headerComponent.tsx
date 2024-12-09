@@ -19,7 +19,7 @@ export default function HeaderComponent() {
                             </Link>
                         </h1>
                         <h1 className="text-2xl flex flex-col justify-end">
-                            <Link to={`/models`}>
+                            <Link to={`../models/`}>
                                 Models
                             </Link>
                         </h1>
