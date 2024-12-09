@@ -8,6 +8,7 @@ import {
 } from "@remix-run/react";
 
 import "./tailwind.css";
+import HeaderComponent from "./components/headerComponent";
 
 export default function Component() {
   return (
@@ -21,7 +22,7 @@ export default function Component() {
       <body>
         <ScrollRestoration />
         <Scripts />
-        root page
+        <HeaderComponent />
         <div>
           <Outlet />
         </div>
