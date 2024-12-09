@@ -3,14 +3,26 @@
 - Carlos Hernandez & Jonathan Nunez
 
 # How to run Web Client
+
 - In terminal, navigate to `Web Client` folder and run the following
 - `npm install`
 - `npm run dev`
 
 # How to run API
+
+- The virtual environment is NOT included in the github repo
+
 - In terminal, navigate to `API` folder and run the following
+
+- If you havent added a virtual environment yet, do these first
+
+- `python3 -m venv virtual-env`
+- `pip install fastapi`
+- Go ahead and do pip install for numpy, pandas, scikit-learn, matplotlib, and torch
+
+- Now you can do these commands
 - `source virtual-env/bin/activate`
 - `fastapi dev app.py`
 
-- Once finished, you can do ctrl + c to stop both servers (do it in each terminal)
+- Once finished, you can do ctrl + c to stop both servers (do it in each terminal, API and Web Client)
 - Run `deactivate` in the API terminal to stop the virtual env.
