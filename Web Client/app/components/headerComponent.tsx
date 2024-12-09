@@ -1,3 +1,5 @@
+import { Link } from "@remix-run/react";
+
 export default function HeaderComponent() {
     return (
         <div>
@@ -12,13 +14,19 @@ export default function HeaderComponent() {
                 <div className="w-full flex flex-row justify-end">
                     <div className="flex flex-row space-x-10">
                         <h1 className="text-2xl flex flex-col justify-end">
-                            Home
+                            <Link to={`/`}>
+                                Home
+                            </Link>
                         </h1>
                         <h1 className="text-2xl flex flex-col justify-end">
-                            Models
+                            <Link to={`/models`}>
+                                Models
+                            </Link>
                         </h1>
                         <h1 className="text-2xl flex flex-col justify-end pr-6">
-                            About
+                            <Link to={`/about`}>
+                                About
+                            </Link>
                         </h1>
                     </div>
                 </div>
