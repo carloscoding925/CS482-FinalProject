@@ -1,7 +1,11 @@
+import TextBox from "~/components/textBox";
+
 export default function Component() {
     return (
         <div>
-            About page
+            <div className="pt-6">
+                <TextBox />
+            </div>
         </div>
     );
 }
