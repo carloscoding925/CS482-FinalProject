@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import { useEffect, useState } from "react";
 
 export default function ImageSlideshow() {
@@ -27,6 +28,24 @@ export default function ImageSlideshow() {
                     >
                     </div>
                 ))}
+                <div className="absolute inset-0 font-bold flex flex-row place-content-center">
+                    <div className="flex flex-col">
+                        <h1 className="text-4xl flex place-content-center">
+                            Welcome!
+                        </h1>
+                        <h1 className="text-4xl">
+                            Determine the weather outside using machine learning.
+                        </h1>
+                        <h1 className="text-4xl flex place-content-center">
+                            To get started
+                        </h1>
+                        <h1 className="text-4xl flex place-content-center hover:text-red-600 transition-colors duration-300">
+                            <Link to="/models">
+                            Click Here
+                            </Link>
+                        </h1>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -9,6 +9,7 @@ import {
 
 import "./tailwind.css";
 import HeaderComponent from "./components/headerComponent";
+import FooterComponent from "./components/footerComponent";
 
 export default function Component() {
   return (
@@ -26,6 +27,7 @@ export default function Component() {
         <div>
           <Outlet />
         </div>
+        <FooterComponent />
       </body>
     </html>
   );
