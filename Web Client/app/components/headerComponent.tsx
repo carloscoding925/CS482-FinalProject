@@ -13,17 +13,17 @@ export default function HeaderComponent() {
                 </div>
                 <div className="w-full flex flex-row justify-end">
                     <div className="flex flex-row space-x-10">
-                        <h1 className="text-2xl flex flex-col justify-end">
+                        <h1 className="text-2xl flex flex-col justify-end transition-transform duration-300 hover:-translate-y-2">
                             <Link to={`/`}>
                                 Home
                             </Link>
                         </h1>
-                        <h1 className="text-2xl flex flex-col justify-end">
+                        <h1 className="text-2xl flex flex-col justify-end transition-transform duration-300 hover:-translate-y-2">
                             <Link to={`../models/`}>
                                 Models
                             </Link>
                         </h1>
-                        <h1 className="text-2xl flex flex-col justify-end pr-6">
+                        <h1 className="text-2xl flex flex-col justify-end pr-6 transition-transform duration-300 hover:-translate-y-2">
                             <Link to={`/about`}>
                                 About
                             </Link>
