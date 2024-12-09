@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 # Load and preprocess data
 def preprocess_data(path):
-    path = "/content/drive/My Drive/Cs482/Assignments/Final/model_01/weather_classification_data.csv"
+    path = "../data/weather_classification_data.csv"
     data = pd.read_csv(path)
     X = data.drop('Weather Type', axis=1)
     y = data['Weather Type']
@@ -183,7 +183,7 @@ if __name__ == "__main__":
     for metric, value in evaluation_results.items():
         print(f"{metric.capitalize()}: {value:.4f}")
 
-    plot_metrics(train_losses, val_losses, train_accuracies, val_accuracies, num_epochs)
+    #plot_metrics(train_losses, val_losses, train_accuracies, val_accuracies, num_epochs)
     '''torch.save({
             'epoch': num_epochs,
             'model_state_dict': model_mln.state_dict(),
@@ -191,9 +191,9 @@ if __name__ == "__main__":
             'loss': train_losses[-1],
             }, '/content/drive/My Drive/Cs482/Assignments/Final/mln.pt')'''
 
-torch.save({
-            'epoch': num_epochs,
-            'model_state_dict': model_mln.state_dict(),
-            'optimizer_state_dict': optimizer.state_dict(),
-            'loss': train_losses[-1],
-            }, '/content/drive/My Drive/Cs482/Assignments/Final/mln.pth')
+    #torch.save({
+     #       'epoch': num_epochs,
+      #      'model_state_dict': model_mln.state_dict(),
+      #      'optimizer_state_dict': optimizer.state_dict(),
+      #      'loss': train_losses[-1],
+      #      }, '/content/drive/My Drive/Cs482/Assignments/Final/mln.pth')

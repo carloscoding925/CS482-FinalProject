@@ -84,7 +84,7 @@ class MyLogisticRegression:
 
 if __name__ == '__main__':
     # Define the dataset path
-    dataset_path = "/content/drive/My Drive/Cs482/Assignments/Final/weather_classification_data.csv"
+    dataset_path = "../data/weather_classification_data.csv"
 
     # Instantiate the MyLogisticRegression class
     logistic_model = MyLogisticRegression(dataset_path)
