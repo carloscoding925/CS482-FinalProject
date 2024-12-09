@@ -14,14 +14,18 @@
 
 - In terminal, navigate to `API` folder and run the following
 
-- If you havent added a virtual environment yet, do these first
+- If you havent added a virtual environment yet, do this first
 
 - `python3 -m venv virtual-env`
+
+- Now you can do the following
+
+- `source virtual-env/bin/activate`
 - `pip install fastapi`
 - Go ahead and do pip install for numpy, pandas, scikit-learn, matplotlib, and torch
 
 - Now you can do these commands
-- `source virtual-env/bin/activate`
+- `source virtual-env/bin/activate` If you havent already
 - `fastapi dev app.py`
 
 - Once finished, you can do ctrl + c to stop both servers (do it in each terminal, API and Web Client)
