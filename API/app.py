@@ -2,10 +2,19 @@
 
 import joblib
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from models.Logistic_Regression import MyLogisticRegression, predict_from_features
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 logistic_model = MyLogisticRegression()
 metrics = logistic_model.model_predict_logistic()
