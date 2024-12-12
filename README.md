@@ -10,7 +10,7 @@
 - app.py is the only other file in the `API` folder which is built by us, the rest of the files are system generated
 
 - For the `Web-Client` folder, all the files in the `components` and `routes` folders are built by us along with <br/>
-- `root.tsx` in the main folder. The rest of the files are system generated. 
+- `root.tsx` in the `app` folder. The rest of the files are system generated. 
 
 # How to run Web Client
 
