@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from models.Logistic_Regression import MyLogisticRegression, predict_from_features
 from models.Neural_Network import MultiLayerNet, preprocess_features, evaluate_model
+from models.Decision_Tree import MyDecisionTreeClassifier
 
 app = FastAPI()
 
@@ -108,5 +109,40 @@ def predict(features: Features):
         raise HTTPException(status_code=400, detail="Invalid input format: " + str(e))
 
 @app.post("/predict/decision_tree")
-def predict():
-    print()
+def predict(features: Features):
+    try:
+        features_list = features.features.split(",")
+
+        features_list = [
+            float(features_list[0]),  # temperature
+            float(features_list[1]),  # humidity
+            float(features_list[2]),  # windSpeed
+            float(features_list[3]),  # precipitation
+            features_list[4],         # cloudCover
+            float(features_list[5]),  # atmosphericPressure
+            float(features_list[6]),  # uvIndex
+            features_list[7],         # season
+            float(features_list[8]),  # visibility
+            features_list[9]          # location
+        ]
+
+        dt_cloudCover = joblib.load('dt_cloudCover.pkl')
+        dt_season = joblib.load('dt_season.pkl')
+        dt_location = joblib.load('dt_location.pkl')
+        label_encoder = joblib.load('dt_label_encoder.pkl')
+
+        features_list[4] = dt_cloudCover.transform([features_list[4]])[0]
+        features_list[7] = dt_season.transform([features_list[7]])[0]
+        features_list[9] = dt_location.transform([features_list[9]])[0]
+
+        columns = ['Temperature', 'Humidity', 'Wind Speed', 'Precipitation (%)', 'Cloud Cover', 'Atmospheric Pressure', 'UV Index', 'Season', 'Visibility (km)', 'Location']
+        input_df = pd.DataFrame([features_list], columns=columns)
+
+        model = joblib.load('dt_model.pkl')
+
+        prediction = model.predict(input_df)[0]
+        predicted_label = label_encoder.inverse_transform([prediction])[0]
+
+        return {"Predicted Class": predicted_label}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Invalid input format: " + str(e))
