@@ -4,7 +4,7 @@ import joblib
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.preprocessing import LabelEncoder
 
@@ -13,7 +13,7 @@ class MyDecisionTreeClassifier:
         self.read_csv_and_split_data()
 
     def read_csv_and_split_data(self):
-        self.data = pd.read_csv("data/weather_classification_data.csv")
+        self.data = pd.read_csv("../data/weather_classification_data.csv")
         X = self.data.drop('Weather Type', axis=1)
         y = self.data['Weather Type']
 
@@ -53,6 +53,14 @@ class MyDecisionTreeClassifier:
 
         train_accuracy = accuracy_score(self.Y_train, Y_train_pred)
         print("Accuracy Score - Train: ", train_accuracy)
+
+        test_precision = precision_score(self.Y_test, Y_test_pred, average='weighted')
+        test_recall = recall_score(self.Y_test, Y_test_pred, average='weighted')
+        test_f1 = f1_score(self.Y_test, Y_test_pred, average='weighted')
+
+        print("Precision Score - Test: ", test_precision)
+        print("Recall Score - Test: ", test_recall)
+        print("F1 Score - Test: ", test_f1)
 
         joblib.dump(self.model, 'dt_model.pkl')
 
