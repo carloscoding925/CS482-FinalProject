@@ -80,10 +80,10 @@ def predict(features: Features):
             features_list[9]          # location
         ]
 
-        columns = ['Temperature', 'Humidity', 'Wind Speed', 'Precipitation', 'Cloud Cover', 'Atmospheric Pressure', 'UV Index', 'Season', 'Visibility', 'Location']
+        columns = ['Temperature', 'Humidity', 'Wind Speed', 'Precipitation (%)', 'Cloud Cover', 'Atmospheric Pressure', 'UV Index', 'Season', 'Visibility (km)', 'Location']
         input_df = pd.DataFrame([features_list], columns=columns)
 
-        input_features = preprocess_features(features_list)
+        input_features = preprocess_features(input_df)
 
         input_size = input_features.shape[1]
         num_classes = len(joblib.load('nn_label_encoder.pkl').classes_)

@@ -18,17 +18,17 @@ import torch.optim as optim
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 import matplotlib.pyplot as plt
 
-def preprocess_features(features_list):
+def preprocess_features(input_df):
     le_cloudCover = joblib.load('nn_cloudCover.pkl')
     le_season = joblib.load('nn_season.pkl')
     le_location = joblib.load('nn_location.pkl')
     scaler = joblib.load('nn_scaler.pkl')
 
-    features_list[4] = le_cloudCover.transform([features_list[4]])[0]
-    features_list[7] = le_season.transform([features_list[7]])[0]
-    features_list[9] = le_location.transform([features_list[9]])[0]
+    input_df['Cloud Cover'] = le_cloudCover.transform(input_df['Cloud Cover'])
+    input_df['Season'] = le_season.transform(input_df['Season'])
+    input_df['Location'] = le_location.transform(input_df['Location'])
 
-    input_features = scaler.transform([features_list])
+    input_features = scaler.transform(input_df)
 
     return input_features
 
