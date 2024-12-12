@@ -2,6 +2,16 @@
 
 - Carlos Hernandez & Jonathan Nunez
 
+# For the teaching team
+
+- Our code for the AI models is under the following folder <br/>
+- `API -> models` Which has our Decision_Tree, Logistic_Regression, and Neural_Network files
+
+- app.py is the only other file in the `API` folder which is built by us, the rest of the files are system generated
+
+- For the `Web-Client` folder, all the files in the `components` and `routes` folders are built by us along with <br/>
+- `root.tsx` in the main folder. The rest of the files are system generated. 
+
 # How to run Web Client
 
 - In terminal, navigate to `Web Client` folder and run the following
