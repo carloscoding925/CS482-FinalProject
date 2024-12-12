@@ -7,6 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1GpvAVK5OqrokBXDoNkYoiVM0LiMnTWUj
 """
 
+import joblib
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
@@ -37,13 +38,27 @@ class MyLogisticRegression:
         y = data['Weather Type']
 
         # Temperature, Humidity, Wind Speed, Precip, Cloud Cover, Atmoshpheric Pressure, UV Index, Season, Visibility, Location
+        # Float        Float      Float       Float   String       Float                  Float     String  Float      String
 
         # Preprocess data
-        X = pd.get_dummies(X, columns=['Cloud Cover', 'Season', 'Location'], drop_first=True)
+        le_cloudCover = LabelEncoder()
+        le_season = LabelEncoder()
+        le_location = LabelEncoder()
+
+        X['Cloud Cover'] = le_cloudCover.fit_transform(X['Cloud Cover'])
+        X['Season'] = le_season.fit_transform(X['Season'])
+        X['Location'] = le_location.fit_transform(X['Location'])
+
         self.label_encoder = LabelEncoder()  # Assign the label encoder instance to the class attribute
         y_encoded = self.label_encoder.fit_transform(y)
         scaler = MinMaxScaler()
         X_scaled = scaler.fit_transform(X)
+
+        joblib.dump(le_cloudCover, 'le_cloudCover.pkl')
+        joblib.dump(le_season, 'le_season.pkl')
+        joblib.dump(le_location, 'le_location.pkl')
+        joblib.dump(self.label_encoder, 'label_encoder.pkl')
+        joblib.dump(scaler, 'scaler.pkl')
 
         # Split into training and test sets
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X_scaled, y_encoded, test_size=0.5, random_state=42)
@@ -84,13 +99,15 @@ class MyLogisticRegression:
             })
         return metrics
     
-    def predict_from_features(model, features):
+def predict_from_features(model, features, label_encoder):
         try:
             features_array = np.array(features).reshape(1, -1)
             prediction = model.predict(features_array)
-            return {"Predicted Class": prediction[0]}
+            prediction_class = int(prediction[0])
+            prediction_label = label_encoder.inverse_transform([prediction_class])[0]
+            return {"Predicted Class": prediction_label}
         except Exception as e:
-            return {"error": str(e)}
+            return {"Prediction failed": str(e)}
 
 if __name__ == '__main__':
     # Instantiate the MyLogisticRegression class
