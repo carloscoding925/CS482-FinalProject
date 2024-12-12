@@ -1,4 +1,4 @@
-import { Form } from "@remix-run/react";
+import { Form, useNavigate } from "@remix-run/react";
 import { useState } from "react";
 
 export default function Component() {
@@ -16,6 +16,7 @@ export default function Component() {
     });
 
     const [prediction, setPrediction] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -56,6 +57,9 @@ export default function Component() {
     return (
         <div>
             <Form onSubmit={handleSubmit}>
+                <div className="flex flex-row place-content-center text-4xl font-bold pt-4">
+                    Decision Tree Model
+                </div>
                 <div className="flex flex-row place-content-center pt-4">
                     <div className="flex flex-col pt-4">
                         <label className="flex flex-row place-content-center text-lg font-bold">
@@ -120,11 +124,12 @@ export default function Component() {
                         <input type="text" name="location" value={formData.location} onChange={handleChange} className="border-2 border-gray-300 rounded-lg p-2" />
                     </div>
                 </div>
-                <div className="flex flex-row place-content-center pt-4">
+                <div className="flex flex-row place-content-center pt-4 space-x-16">
+                    <button type="button" className="bg-red-500 text-white rounded-lg p-2" onClick={() => navigate("/models")}>Go Back</button>
                     <button type="submit" className="bg-blue-500 text-white rounded-lg p-2">Submit</button>
                 </div>
                 <div className={prediction === null ? 'h-40' : 'hidden'}></div>
-                <div className={prediction === null ? 'h-40' : 'hidden'}></div>
+                <div className={prediction === null ? 'h-20' : 'hidden'}></div>
             </Form>
             {prediction && (
                 <div>
