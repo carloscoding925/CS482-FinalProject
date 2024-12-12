@@ -15,7 +15,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 
 class MyLogisticRegression:
-    def __init__(self, dataset_path, perform_test=True):
+    def __init__(self, perform_test=True):
         self.training_set = None
         self.test_set = None
         self.model_logistic = None
@@ -25,7 +25,7 @@ class MyLogisticRegression:
         self.y_test = None
         self.label_encoder = None  # Declare label_encoder as an instance attribute
         self.perform_test = perform_test
-        self.dataset_path = dataset_path
+        self.dataset_path = "data/weather_classification_data.csv"
         self.read_csv()
 
     def read_csv(self):
@@ -35,6 +35,8 @@ class MyLogisticRegression:
         data = pd.read_csv(self.dataset_path)
         X = data.drop('Weather Type', axis=1)
         y = data['Weather Type']
+
+        # Temperature, Humidity, Wind Speed, Precip, Cloud Cover, Atmoshpheric Pressure, UV Index, Season, Visibility, Location
 
         # Preprocess data
         X = pd.get_dummies(X, columns=['Cloud Cover', 'Season', 'Location'], drop_first=True)
@@ -81,13 +83,18 @@ class MyLogisticRegression:
                 "Support": support[i]
             })
         return metrics
+    
+    def predict_from_features(model, features):
+        try:
+            features_array = np.array(features).reshape(1, -1)
+            prediction = model.predict(features_array)
+            return {"Predicted Class": prediction[0]}
+        except Exception as e:
+            return {"error": str(e)}
 
 if __name__ == '__main__':
-    # Define the dataset path
-    dataset_path = "../data/weather_classification_data.csv"
-
     # Instantiate the MyLogisticRegression class
-    logistic_model = MyLogisticRegression(dataset_path)
+    logistic_model = MyLogisticRegression()
 
     # Predict and evaluate
     metrics = logistic_model.model_predict_logistic()
