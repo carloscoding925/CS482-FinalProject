@@ -63,11 +63,11 @@ class MyLogisticRegression:
         # Split into training and test sets
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X_scaled, y_encoded, test_size=0.5, random_state=42)
 
-    def model_fit_logistic(self, C=1.0, penatly='l2', solver='lbfgs', max_iter=100):
+    def model_fit_logistic(self, C=1.0, penalty='l2', solver='lbfgs', max_iter=100):
         """
         Initialize self.model_logistic and call the fit function.
         """
-        self.model_logistic = LogisticRegression(C=C, penalty=penatly, solver=solver, max_iter=max_iter)
+        self.model_logistic = LogisticRegression(C=C, penalty=penalty, solver=solver, max_iter=max_iter)
         self.model_logistic.fit(self.X_train, self.y_train)
 
     def model_predict_logistic(self):
