@@ -36,8 +36,13 @@ class MyDecisionTreeClassifier:
         joblib.dump(label_encoder, 'dt_label_encoder.pkl')
         self.label_encoder = label_encoder
 
-    def train_and_predict(self):
-        self.model = DecisionTreeClassifier()
+    def train_and_predict(self, criterion='gini', splitter='best', min_samples_split=2, min_samples_leaf=1):
+        self.model = DecisionTreeClassifier(
+            criterion=criterion,
+            splitter=splitter,
+            min_samples_split=min_samples_split,
+            min_samples_leaf=min_samples_leaf
+        )
         self.model.fit(self.X_train, self.Y_train)
 
         Y_test_pred = self.model.predict(self.X_test)
