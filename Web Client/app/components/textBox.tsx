@@ -8,8 +8,16 @@ export default function TextBox() {
                             About
                         </h1>
                         <p className="pt-6 pl-6 pr-6">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hendrerit nulla sit amet est volutpat fermentum. Cras ornare pulvinar euismod. Nullam at ligula sed tortor sodales facilisis non in orci. Suspendisse lobortis luctus commodo. Donec leo nibh, sodales a dui non, maximus malesuada sapien. Nullam sit amet porta ipsum, at euismod enim. Proin venenatis lacus lectus, vel fermentum arcu dapibus fermentum. Donec rutrum aliquam dolor, nec finibus est bibendum ac. Proin pellentesque convallis massa ac ultricies
+                            Welcome to the Weather Classification Website! This project was created by Carlos Hernandez and Jonathan Nunez as the final project
+                            for CS 482 - Introduction to AI at the University of Nevada, Reno. The goal of this project is to recieve metrics about the current weather
+                            or to have a user enter metrics for weather and return a classification of the weather type. This project consists of two parts: the web client
+                            and the API service. The Web Client is built using React and the Remix framework and the API is built using Python and the Python FastAPI Library.
+                            We hope you enjoy using our website and find it useful!
                         </p>
+                        <div className="pt-4 flex flex-row place-content-center">
+                            <div className="flex flex-row h-[300px] w-[300px] bg-cover bg-center" style={{ backgroundImage: `url('/favicon.ico')` }}>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
