@@ -8,6 +8,7 @@ Original file is located at
 """
 
 # Import dependencies
+import joblib
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
@@ -17,17 +18,46 @@ import torch.optim as optim
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 import matplotlib.pyplot as plt
 
+def preprocess_features(features_list):
+    le_cloudCover = joblib.load('nn_cloudCover.pkl')
+    le_season = joblib.load('nn_season.pkl')
+    le_location = joblib.load('nn_location.pkl')
+    scaler = joblib.load('nn_scaler.pkl')
+
+    features_list[4] = le_cloudCover.transform([features_list[4]])[0]
+    features_list[7] = le_season.transform([features_list[7]])[0]
+    features_list[9] = le_location.transform([features_list[9]])[0]
+
+    input_features = scaler.transform([features_list])
+
+    return input_features
+
 # Load and preprocess data
 def preprocess_data(path):
-    path = "../data/weather_classification_data.csv"
+    path = "data/weather_classification_data.csv"
     data = pd.read_csv(path)
     X = data.drop('Weather Type', axis=1)
     y = data['Weather Type']
-    X = pd.get_dummies(X, columns=['Cloud Cover', 'Season', 'Location'], drop_first=True)
+    
+    le_cloudCover = LabelEncoder()
+    le_season = LabelEncoder()
+    le_location = LabelEncoder()
+
+    X['Cloud Cover'] = le_cloudCover.fit_transform(X['Cloud Cover'])
+    X['Season'] = le_season.fit_transform(X['Season'])
+    X['Location'] = le_location.fit_transform(X['Location'])
+
     label_encoder = LabelEncoder()
     y_encoded = label_encoder.fit_transform(y)
     scaler = MinMaxScaler()
     X_scaled = scaler.fit_transform(X)
+
+    joblib.dump(le_cloudCover, 'nn_cloudCover.pkl')
+    joblib.dump(le_season, 'nn_season.pkl')
+    joblib.dump(le_location, 'nn_location.pkl')
+    joblib.dump(label_encoder, 'nn_label_encoder.pkl')
+    joblib.dump(scaler, 'nn_scaler.pkl')
+
     X_scaled = torch.tensor(X_scaled, dtype=torch.float32)
     y_encoded = torch.tensor(y_encoded, dtype=torch.long)
     return X_scaled, y_encoded, label_encoder
@@ -184,12 +214,12 @@ if __name__ == "__main__":
         print(f"{metric.capitalize()}: {value:.4f}")
 
     #plot_metrics(train_losses, val_losses, train_accuracies, val_accuracies, num_epochs)
-    '''torch.save({
+    torch.save({
             'epoch': num_epochs,
             'model_state_dict': model_mln.state_dict(),
             'optimizer_state_dict': optimizer.state_dict(),
             'loss': train_losses[-1],
-            }, '/content/drive/My Drive/Cs482/Assignments/Final/mln.pt')'''
+            }, 'mln.pth')
 
     #torch.save({
      #       'epoch': num_epochs,

@@ -1,10 +1,12 @@
 # Carlos Hernandez & Jonathan Nunez
 
 import joblib
+import torch
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from models.Logistic_Regression import MyLogisticRegression, predict_from_features
+from models.Neural_Network import preprocess_features, evaluate_model
 
 app = FastAPI()
 
@@ -46,7 +48,6 @@ def predict(features: Features):
         scaler = joblib.load('scaler.pkl')
         label_encoder = joblib.load('label_encoder.pkl')
 
-        # Transform the categorical features
         features_list[4] = le_cloudCover.transform([features_list[4]])[0]
         features_list[7] = le_season.transform([features_list[7]])[0]
         features_list[9] = le_location.transform([features_list[9]])[0]
@@ -58,11 +59,42 @@ def predict(features: Features):
             raise HTTPException(status_code=400, detail=result["error"])
         return result
     except Exception as e:
-        raise HTTPException(status_code=400, detail="Invalid input format")
+        raise HTTPException(status_code=400, detail="Invalid input format: " + str(e))
     
 @app.post("/predict/neural_network")
-def predict():
-    print()
+def predict(features: Features):
+    try:
+        features_list = features.features.split(",")
+
+        features_list = [
+            float(features_list[0]),  # temperature
+            float(features_list[1]),  # humidity
+            float(features_list[2]),  # windSpeed
+            float(features_list[3]),  # precipitation
+            features_list[4],         # cloudCover
+            float(features_list[5]),  # atmosphericPressure
+            float(features_list[6]),  # uvIndex
+            features_list[7],         # season
+            float(features_list[8]),  # visibility
+            features_list[9]          # location
+        ]
+
+        input_features = preprocess_features(features_list)
+        model = torch.load('mln.pth')
+        model.eval()
+
+        input_tensor = torch.tensor(input_features, dtype=torch.float32)
+
+        with torch.no_grad():
+            predictions = model(input_tensor)
+            prediction_class = torch.argmax(predictions, dim=1).item()
+
+        label_encoder = joblib.load('nn_label_encoder.pkl')
+        predicted_label = label_encoder.inverse_transform([prediction_class])[0]
+
+        return {"Predicted Class": predicted_label}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Invalid input format: " + str(e))
 
 @app.post("/predict/decision_tree")
 def predict():
