@@ -32,7 +32,7 @@
 
 - `source virtual-env/bin/activate`
 - `pip install fastapi`
-- Go ahead and do pip install for numpy, pandas, scikit-learn, matplotlib, and torch
+- Go ahead and do pip install for `numpy`, `pandas`, `scikit-learn`, `matplotlib`, and `torch`
 
 - Now you can do these commands
 - `source virtual-env/bin/activate` If you havent already
