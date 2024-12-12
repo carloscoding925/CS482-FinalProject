@@ -2,11 +2,12 @@
 
 import joblib
 import torch
+import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from models.Logistic_Regression import MyLogisticRegression, predict_from_features
-from models.Neural_Network import preprocess_features, evaluate_model
+from models.Neural_Network import MultiLayerNet, preprocess_features, evaluate_model
 
 app = FastAPI()
 
@@ -79,8 +80,18 @@ def predict(features: Features):
             features_list[9]          # location
         ]
 
+        columns = ['Temperature', 'Humidity', 'Wind Speed', 'Precipitation', 'Cloud Cover', 'Atmospheric Pressure', 'UV Index', 'Season', 'Visibility', 'Location']
+        input_df = pd.DataFrame([features_list], columns=columns)
+
         input_features = preprocess_features(features_list)
-        model = torch.load('mln.pth')
+
+        input_size = input_features.shape[1]
+        num_classes = len(joblib.load('nn_label_encoder.pkl').classes_)
+
+        model = MultiLayerNet(input_size, num_classes)
+
+        checkpoint = torch.load('mln.pth')
+        model.load_state_dict(checkpoint['model_state_dict'])
         model.eval()
 
         input_tensor = torch.tensor(input_features, dtype=torch.float32)
