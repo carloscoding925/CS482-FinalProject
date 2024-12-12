@@ -59,3 +59,11 @@ def predict(features: Features):
         return result
     except Exception as e:
         raise HTTPException(status_code=400, detail="Invalid input format")
+    
+@app.post("/predict/neural_network")
+def predict():
+    print()
+
+@app.post("/predict/decision_tree")
+def predict():
+    print()

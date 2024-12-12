@@ -15,6 +15,8 @@ export default function Component() {
         location: ''
     });
 
+    const [prediction, setPrediction] = useState<string | null>(null);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({
@@ -25,7 +27,6 @@ export default function Component() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(Object.values(formData).join(','));
         const response = await fetch('http://127.0.0.1:8000/predict/logistic_model', {
             method: 'POST',
             headers: {
@@ -34,8 +35,23 @@ export default function Component() {
             body: JSON.stringify({ features: Object.values(formData).join(',') })
         });
         const result = await response.json();
-        console.log(result);
+        setPrediction(result["Predicted Class"]);
     };
+
+    const getImageSrc = (weatherType: string) => {
+        switch (weatherType) {
+            case 'Rainy':
+                return '/rainyModel.jpg';
+            case 'Cloudy':
+                return '/cloudyModel.jpeg';
+            case 'Sunny':
+                return '/sunnyModel.jpeg';
+            case 'Snowy':
+                return '/snowyModel.jpeg';
+            default:
+                return '';
+        }
+    }
 
     return (
         <div>
@@ -107,7 +123,21 @@ export default function Component() {
                 <div className="flex flex-row place-content-center pt-4">
                     <button type="submit" className="bg-blue-500 text-white rounded-lg p-2">Submit</button>
                 </div>
+                <div className={prediction === null ? 'h-40' : 'hidden'}></div>
+                <div className={prediction === null ? 'h-40' : 'hidden'}></div>
             </Form>
+            {prediction && (
+                <div>
+                    <div className="flex flex-row place-content-center pt-4">
+                        <h1 className="text-6xl font-bold">
+                            The Weather is {prediction}
+                        </h1>
+                    </div>
+                    <div className="flex flex-row place-content-center pt-4 pb-8">
+                        <img src={getImageSrc(prediction)} alt={prediction} className="w-100 h-100" />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
